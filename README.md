@@ -1,59 +1,79 @@
-# TimeSync
+# ⏱ TimeSync
 
-A lightweight, interactive application where players test their precision, reflexes, and timing skills by attempting to stop a running timer as close as possible to a target time.
+A mobile app that trains your internal clock through timing-based mini-games. Built with React Native and Expo.
+
+## Game Modes
+
+### Blind Stopwatch
+See a target time, memorize it, then start a hidden timer. Stop it when you think you've hit the target — the display stays dark while the timer runs.
+
+### Beep Interval
+Listen for two audio beeps and estimate the time between them using a numpad. Tests auditory time perception instead of visual.
+
+### Stopwatch Duel
+Split-screen 1v1 on a single device. Both players see the same target time, start and stop their own timers independently, and the closest one wins. Uses gesture-based multitouch so both halves work simultaneously.
 
 ## Features
 
-- Precision timing mechanics with millisecond accuracy.
-- Clean and intuitive user interface.
-- Responsive design for both desktop and mobile devices.
-- Score tracking and challenge modes.
+- **Centisecond precision** — all game modes track accuracy down to 0.01s
+- **Per-game scoring** — rated on how close you land (within 0.1s, 0.5s, 1s, etc.)
+- **History & analytics** — tracks games played, average error, best score, and ≤1s accuracy percentage with a bar chart of recent performance
+- **Multiple profiles** — separate players each get their own history, settings, and stats (stored via AsyncStorage)
+- **Configurable time ranges** — adjust min/max target times for both stopwatch and beep modes per profile
+- **Haptic feedback** — uses `expo-haptics` for tactile responses on interactions
+- **Audio cues** — `expo-audio` for beep interval playback
 
 ## Tech Stack
 
-- **Frontend:** HTML5, CSS3, JavaScript
-- **Styling:** Modern CSS
-- **Deployment:** Static Web Hosting
+- **Framework:** [Expo](https://expo.dev) (SDK 57) with [Expo Router](https://docs.expo.dev/router/introduction/)
+- **Language:** TypeScript
+- **UI:** React Native with `react-native-reanimated` and `react-native-gesture-handler`
+- **Storage:** `@react-native-async-storage/async-storage`
+- **Platform support:** iOS, Android, Web
 
 ## Getting Started
 
 ### Prerequisites
 
-To run this project locally, you only need a modern web browser (such as Google Chrome, Mozilla Firefox, Microsoft Edge, or Safari).
+- [Node.js](https://nodejs.org/) (v18+)
+- [Expo CLI](https://docs.expo.dev/get-started/installation/)
 
-### Installation
+### Install & Run
 
-1. Clone the repository:
-   ```bash
-   git clone [https://github.com/wallaceip/TimerGameApp.git](https://github.com/wallaceip/TimerGameApp.git)
-   ```
+```bash
+git clone https://github.com/wallaceip/timesync.git
+cd timesync
+npm install
+npx expo start
+```
 
-2. Navigate to the project directory:
-   ```bash
-   cd TimerGameApp
+Scan the QR code with [Expo Go](https://expo.dev/go) or press `a` / `i` to open on an Android emulator or iOS simulator.
 
-   ```
+## Project Structure
 
-
-3. Open `index.html` directly in your web browser, or run it using a local development server (such as the Live Server extension in Visual Studio Code).
-
-## How to Play
-
-1. Start the game by clicking the start button.
-2. Watch the timer count upward.
-3. Stop the timer as close as possible to the target time.
-4. Review your accuracy and try to beat your previous score.
-
-## Contributing
-
-Contributions are welcome. If you would like to suggest improvements, report bugs, or add new features, please follow these steps:
-
-1. Fork the repository.
-2. Create your feature branch (`git checkout -b feature/YourFeatureName`).
-3. Commit your changes (`git commit -m 'Add some YourFeatureName'`).
-4. Push to the branch (`git push origin feature/YourFeatureName`).
-5. Open a Pull Request.
+```
+app/
+├── _layout.tsx          # Root stack navigator
+├── index.tsx            # Home screen with game mode cards
+├── stopwatch.tsx        # Blind Stopwatch mode
+├── beep.tsx             # Beep Interval mode
+├── stopwatch-duel.tsx   # 1v1 split-screen duel
+├── history.tsx          # Game history & analytics
+├── profiles.tsx         # Profile management
+└── settings.tsx         # Time range config & data management
+components/
+├── BarChart.tsx          # Error-per-game chart
+├── GameCard.tsx          # Home screen mode selector
+├── GlowButton.tsx        # Themed action button
+├── NumPad.tsx            # In-game numpad input
+├── ScoreResult.tsx       # Post-game score breakdown
+└── TimerDisplay.tsx      # Formatted time display
+utils/
+├── sounds.ts            # Audio playback
+├── storage.ts           # AsyncStorage CRUD, profiles, settings
+└── timeHelpers.ts       # Time formatting, scoring, RNG
+```
 
 ## License
 
-Distributed under the MIT License. See the `LICENSE` file for more details.
+MIT
